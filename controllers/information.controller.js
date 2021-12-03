@@ -48,3 +48,26 @@ exports.getAllQuotes = async (req, res) => {
         });
     }
 };
+
+exports.searchQuote = async (req, res) => {
+    try {
+        let searchCriteria = {};
+    
+        if (req.query.info) {
+            searchCriteria.info = new RegExp('.*' + req.query.info.toLowerCase() + '.*', 'i');;
+        }
+    
+        let information = await Information.find(searchCriteria);
+    
+        return res.status(200).json({
+            status: 'Success',
+            data: information
+        });
+  
+    } catch (err) {
+        return res.status(400).json({
+            status: 'Fail',
+            message: err,
+        });
+    }
+};
